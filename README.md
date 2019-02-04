@@ -84,6 +84,9 @@ For more information: [Extending MISP with Python modules](https://www.circl.lu/
 
 ## How to install and start MISP modules in a Python virtualenv?
 
+**Warning:** 
+The pip3 package url-normalize==1.4.1 isn't available in debian-stretch.
+
 ~~~~bash
 sudo apt-get install python3-dev python3-pip libpq5 libjpeg-dev tesseract-ocr imagemagick
 sudo -u www-data virtualenv -p python3 /var/www/MISP/venv
@@ -100,6 +103,10 @@ sudo sed -i -e '$i \sudo -u www-data /var/www/MISP/venv/bin/misp-modules -l 127.
 
 ## How to install and start MISP modules?
 
+**Warning:** 
+The pip3 package url-normalize==1.4.1 isn't available in debian-stretch.
+
+
 ~~~~bash
 sudo apt-get install python3-dev python3-pip libpq5 libjpeg-dev tesseract-ocr imagemagick
 cd /usr/local/src/
@@ -112,6 +119,35 @@ sudo gem install asciidoctor-pdf --pre
 sudo sed -i -e '$i \sudo -u www-data /var/www/MISP/venv/bin/misp-modules -l 127.0.0.1 -s > /tmp/misp-modules_rc.local.log &\n' /etc/rc.local
 /var/www/MISP/venv/bin/misp-modules -l 127.0.0.1 -s & #to start the modules
 ~~~~
+
+## How to install and start MISP modules on Alpine Linux (For example: docker)
+
+~~~~bash
+apk --no-cache add \
+        sudo \
+        git \
+        g++ \
+        python3-dev \
+        libjpeg-turbo-dev \
+        tesseract-ocr \
+        imagemagick \
+        ruby-pygments \
+        libpq \
+        linux-headers \
+        zlib-dev \
+        curl \
+        ;
+
+git clone https://github.com/MISP/misp-modules.git /usr/local/src/misp-modules \
+     ;cd /usr/local/src/misp-modules \
+     ;sudo pip3 install -I -r REQUIREMENTS --no-cache-dir \
+     ;sudo pip3 install -I . --no-cache-dir \
+     ;gem install asciidoctor-pdf --pre \
+     ;
+~~~~
+If you reuire an finished docker container for misp-modules you can use:
+* hub.docker.com: dcso/misp-dockerized-misp-modules:2
+* sources (version 2.x): https://github.com/DCSO/MISP-dockerized-misp-modules/
 
 ## How to add your own MISP modules?
 
